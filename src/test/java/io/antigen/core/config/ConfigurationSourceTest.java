@@ -3,7 +3,7 @@ package io.antigen.core.config;
 import io.antigen.core.config.ConfigurationSource;
 import io.antigen.core.config.FaultCollection;
 import io.antigen.core.config.LocalConfigurationSource;
-import io.antigen.core.config.MetaTestConfig;
+import io.antigen.core.config.AntigenConfig;
 import org.junit.jupiter.api.*;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class ConfigurationSourceTest {
         System.clearProperty("antigen.api.key");
         System.clearProperty("antigen.project.id");
         System.clearProperty("antigen.api.url");
-        MetaTestConfig.resetInstance();  // Reset AFTER clearing properties
+        AntigenConfig.resetInstance();  // Reset AFTER clearing properties
     }
 
     @AfterEach
@@ -29,7 +29,7 @@ public class ConfigurationSourceTest {
         System.clearProperty("antigen.api.key");
         System.clearProperty("antigen.project.id");
         System.clearProperty("antigen.api.url");
-        MetaTestConfig.resetInstance();
+        AntigenConfig.resetInstance();
     }
 
     @Test
@@ -88,8 +88,8 @@ public class ConfigurationSourceTest {
 
     @Test
     @Order(4)
-    public void testMetaTestConfigOptionalApiKey() {
-        MetaTestConfig config = MetaTestConfig.getInstance();
+    public void testAntigenConfigOptionalApiKey() {
+        AntigenConfig config = AntigenConfig.getInstance();
 
         assertNotNull(config);
         assertFalse(config.isApiConfigured(),
@@ -97,16 +97,16 @@ public class ConfigurationSourceTest {
         assertFalse(config.hasApiKey());
         assertFalse(config.hasProjectId());
 
-        System.out.println("MetaTestConfig works without API key (for local mode)");
+        System.out.println("AntigenConfig works without API key (for local mode)");
     }
 
     @Test
     @Order(6)  // Run this last since it sets API config
-    public void testMetaTestConfigWithApiKey() {
+    public void testAntigenConfigWithApiKey() {
         System.setProperty("antigen.api.key", "mt_proj_test123");
         System.setProperty("antigen.project.id", "test-project-id");
 
-        MetaTestConfig config = MetaTestConfig.getInstance();
+        AntigenConfig config = AntigenConfig.getInstance();
 
         assertNotNull(config);
         assertTrue(config.isApiConfigured(),
@@ -119,8 +119,8 @@ public class ConfigurationSourceTest {
 
     @Test
     @Order(5)
-    public void testMetaTestConfigUrlGenerationFailsWithoutApiConfig() {
-        MetaTestConfig config = MetaTestConfig.getInstance();
+    public void testAntigenConfigUrlGenerationFailsWithoutApiConfig() {
+        AntigenConfig config = AntigenConfig.getInstance();
 
         assertThrows(IllegalStateException.class, () -> config.getFaultStrategiesUrl(),
                 "Should throw when getting fault strategies URL without API config");

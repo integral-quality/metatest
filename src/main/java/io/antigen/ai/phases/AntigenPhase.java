@@ -6,19 +6,19 @@ import lombok.Value;
 import java.util.List;
 
 @Value
-public class MetaTestPhase implements PhaseResult {
+public class AntigenPhase implements PhaseResult {
     boolean success;
     List<EscapedFault> escapedFaults;
     double faultDetectionRate;
     int totalFaults;
     int caughtFaults;
 
-    public static MetaTestPhase success(double detectionRate, int total, int caught) {
-        return new MetaTestPhase(true, List.of(), detectionRate, total, caught);
+    public static AntigenPhase success(double detectionRate, int total, int caught) {
+        return new AntigenPhase(true, List.of(), detectionRate, total, caught);
     }
 
-    public static MetaTestPhase failed(List<EscapedFault> escaped, double detectionRate, int total, int caught) {
-        return new MetaTestPhase(false, escaped, detectionRate, total, caught);
+    public static AntigenPhase failed(List<EscapedFault> escaped, double detectionRate, int total, int caught) {
+        return new AntigenPhase(false, escaped, detectionRate, total, caught);
     }
 
     public boolean hasEscapedFaults() {
@@ -28,12 +28,12 @@ public class MetaTestPhase implements PhaseResult {
     @Override
     public String getFeedback() {
         if (success) {
-            return String.format("MetaTest passed - %.1f%% fault detection rate (%d/%d faults caught)",
+            return String.format("Antigen passed - %.1f%% fault detection rate (%d/%d faults caught)",
                 faultDetectionRate * 100, caughtFaults, totalFaults);
         }
 
         return String.format("""
-            METATEST FAILURE - Your tests did NOT catch %d out of %d injected faults (%.1f%% detection rate).
+            ANTIGEN FAILURE - Your tests did NOT catch %d out of %d injected faults (%.1f%% detection rate).
 
             IMPORTANT: Use the Read tool to read fault_simulation_report.json in the project root.
             DO NOT write scripts to parse it - read it directly with the Read tool.

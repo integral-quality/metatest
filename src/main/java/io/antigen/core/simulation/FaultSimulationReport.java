@@ -51,7 +51,7 @@ public class FaultSimulationReport {
      */
     public void recordResult(String endpoint, String field, String faultType, TestLevelSimulationResults result) {
         if (endpoint == null || field == null || faultType == null || result == null) {
-            System.err.println("[METATEST-WARN] Attempted to record a contract fault result with null data. Skipping.");
+            System.err.println("[Antigen-WARN] Attempted to record a contract fault result with null data. Skipping.");
             return;
         }
 
@@ -64,7 +64,7 @@ public class FaultSimulationReport {
      */
     public void recordInvariantResult(String endpoint, String invariantName, TestLevelSimulationResults result) {
         if (endpoint == null || invariantName == null || result == null) {
-            System.err.println("[METATEST-WARN] Attempted to record a invariant fault result with null data. Skipping.");
+            System.err.println("[Antigen-WARN] Attempted to record a invariant fault result with null data. Skipping.");
             return;
         }
 
@@ -173,7 +173,7 @@ public class FaultSimulationReport {
 
         System.out.println();
         System.out.println(sep);
-        System.out.println(" Metatest -- Simulation Run Summary");
+        System.out.println(" Antigen -- Simulation Run Summary");
         System.out.println(sep);
         System.out.printf(" Overall: %d total  |  %d detected (%.0f%%)  |  %d escaped%n",
                 globalTotal, globalCaught, rate, globalTotal - globalCaught);

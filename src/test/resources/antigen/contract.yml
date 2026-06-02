@@ -7,7 +7,7 @@ settings:
   stop_on_first_catch: true
 
 # Global contract-level fault injection types.
-# Invariants (business rules) are defined in metatest/features/ and per-test .metatest.yml files.
+# Invariants (business rules) are defined in antigen/features/ and per-test .antigen.yml files.
 contract:
   null_field:
     enabled: true

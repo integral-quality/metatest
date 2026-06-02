@@ -20,7 +20,7 @@ import java.util.concurrent.Callable;
 @Command(
         name = "antigen",
         version = "Antigen 1.0.0",
-        description = "Self-validating, reinforced LLM test generation with MetaTest",
+        description = "Self-validating, reinforced LLM test generation with Antigen fault injection",
         mixinStandardHelpOptions = true
 )
 public class Antigen implements Callable<Integer> {
@@ -52,8 +52,8 @@ public class Antigen implements Callable<Integer> {
         @Option(names = {"--timeout-test"}, description = "Test timeout in minutes (default: 10)", defaultValue = "10")
         private int testTimeoutMinutes;
 
-        @Option(names = {"--timeout-metatest"}, description = "MetaTest timeout in minutes (default: 30)", defaultValue = "30")
-        private int metatestTimeoutMinutes;
+        @Option(names = {"--timeout-antigen"}, description = "Antigen fault simulation timeout in minutes (default: 30)", defaultValue = "30")
+        private int antigenTimeoutMinutes;
 
         @Override
         public Integer call() {
@@ -79,7 +79,7 @@ public class Antigen implements Callable<Integer> {
                         .verbose(verbose)
                         .buildTimeout(Duration.ofMinutes(buildTimeoutMinutes))
                         .testTimeout(Duration.ofMinutes(testTimeoutMinutes))
-                        .metaTestTimeout(Duration.ofMinutes(metatestTimeoutMinutes))
+                        .antigenTimeout(Duration.ofMinutes(antigenTimeoutMinutes))
                         .build();
 
                 Orchestrator orchestrator = new Orchestrator(config);
@@ -222,7 +222,7 @@ public class Antigen implements Callable<Integer> {
         @Override
         public Integer call() {
             System.out.println("Antigen 1.0.0");
-            System.out.println("Self-validating LLM test generation with MetaTest");
+            System.out.println("Self-validating LLM test generation with Antigen fault injection");
             return 0;
         }
     }

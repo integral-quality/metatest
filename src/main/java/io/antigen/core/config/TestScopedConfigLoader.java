@@ -22,10 +22,8 @@ public class TestScopedConfigLoader {
     private static final ObjectMapper YAML_MAPPER = new ObjectMapper(new YAMLFactory());
 
     public Optional<TestScopedConfig> load(Class<?> testClass) {
-        // Try new antigen/ location first, fall back to legacy metatest/ location
         String[] candidates = {
-            "antigen/" + testClass.getName() + ".antigen.yml",
-            "metatest/" + testClass.getName() + ".metatest.yml"
+            "antigen/" + testClass.getName() + ".antigen.yml"
         };
 
         for (String resourcePath : candidates) {

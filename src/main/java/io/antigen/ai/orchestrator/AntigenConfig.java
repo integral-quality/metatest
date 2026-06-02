@@ -31,7 +31,7 @@ public class AntigenConfig {
     Duration testTimeout = Duration.ofMinutes(10);
 
     @Builder.Default
-    Duration metaTestTimeout = Duration.ofMinutes(30);
+    Duration antigenTimeout = Duration.ofMinutes(30);
 
     @Builder.Default
     Duration llmTimeout = Duration.ofMinutes(5);

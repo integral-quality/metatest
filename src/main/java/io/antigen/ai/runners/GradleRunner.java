@@ -8,7 +8,7 @@ import io.antigen.ai.model.TestFailure;
 import io.antigen.ai.orchestrator.AntigenConfig;
 import io.antigen.ai.orchestrator.GenerationContext;
 import io.antigen.ai.phases.BuildPhase;
-import io.antigen.ai.phases.MetaTestPhase;
+import io.antigen.ai.phases.AntigenPhase;
 import io.antigen.ai.phases.TestPhase;
 import lombok.Data;
 import lombok.Setter;
@@ -63,7 +63,7 @@ public class GradleRunner {
     }
 
     public TestPhase runTests(GenerationContext context) {
-        log.info("Running tests (without MetaTest)...");
+        log.info("Running tests (without Antigen)...");
 
         String gradleCommand = getGradleCommand(context.getProjectPath());
 
@@ -99,8 +99,8 @@ public class GradleRunner {
         return TestPhase.failed(failures);
     }
 
-    public MetaTestPhase runMetaTest(GenerationContext context) {
-        log.info("Running tests with MetaTest fault injection...");
+    public AntigenPhase runAntigen(GenerationContext context) {
+        log.info("Running tests with Antigen fault injection...");
 
         String gradleCommand = getGradleCommand(context.getProjectPath());
 
@@ -110,31 +110,31 @@ public class GradleRunner {
                         "test",
                         "--tests", "generated.*",
                         "-DrunWithAntigen=true",
-                        "-Dmetatest.config.source=local",
+                        "-Dio.antigen.core.config.source=local",
                         "--console=plain",
                         "--no-daemon"
                 )
                 .workingDirectory(context.getProjectPath())
-                .timeout(config.getMetaTestTimeout())
+                .timeout(config.getAntigenTimeout())
                 .verbose(config.isVerbose())
                 .build();
 
         ProcessExecutor.ProcessResult result = processExecutor.execute(command);
 
         try {
-            MetaTestReport report = parseMetaTestReport(context.getProjectPath());
+            AntigenReport report = parseAntigenReport(context.getProjectPath());
 
             if (report.getEscapedFaults().isEmpty()) {
-                log.info("MetaTest passed - all faults caught");
-                return MetaTestPhase.success(
+                log.info("Antigen passed - all faults caught");
+                return AntigenPhase.success(
                     report.getFaultDetectionRate(),
                     report.getTotalFaults(),
                     report.getCaughtFaults()
                 );
             }
 
-            log.warn("MetaTest failed - {} faults escaped", report.getEscapedFaults().size());
-            return MetaTestPhase.failed(
+            log.warn("Antigen failed - {} faults escaped", report.getEscapedFaults().size());
+            return AntigenPhase.failed(
                 report.getEscapedFaults(),
                 report.getFaultDetectionRate(),
                 report.getTotalFaults(),
@@ -142,8 +142,8 @@ public class GradleRunner {
             );
 
         } catch (IOException e) {
-            log.error("Failed to parse MetaTest report", e);
-            return MetaTestPhase.failed(
+            log.error("Failed to parse Antigen report", e);
+            return AntigenPhase.failed(
                     List.of(new EscapedFault("unknown", "unknown", "unknown", "unknown")),
                     0.0,
                     1,
@@ -152,11 +152,11 @@ public class GradleRunner {
         }
     }
 
-    private MetaTestReport parseMetaTestReport(Path projectPath) throws IOException {
+    private AntigenReport parseAntigenReport(Path projectPath) throws IOException {
         Path reportPath = projectPath.resolve("fault_simulation_report.json");
 
         if (!Files.exists(reportPath)) {
-            throw new IOException("MetaTest report not found at: " + reportPath);
+            throw new IOException("Antigen report not found at: " + reportPath);
         }
 
         ObjectMapper mapper = new ObjectMapper();
@@ -206,7 +206,7 @@ public class GradleRunner {
 
         double faultDetectionRate = totalFaults > 0 ? (double) caughtFaults / totalFaults : 0.0;
 
-        MetaTestReport report = new MetaTestReport();
+        AntigenReport report = new AntigenReport();
         report.setTotalFaults(totalFaults);
         report.setCaughtFaults(caughtFaults);
         report.setEscapedFaults(escapedFaults);
@@ -229,7 +229,7 @@ public class GradleRunner {
     }
 
     /**
-     * DTO for one endpoint entry in the MetaTest report.
+     * DTO for one endpoint entry in the Antigen report.
      * Structure: { contractFaultCount, invariantFaultCount, contractFaultsCaught, invariantFaultsCaught,
      *              contract_faults: { faultType: { fieldName: FaultFieldResult } },
      *              invariant_faults: { invariantName: FaultFieldResult } }
@@ -294,16 +294,16 @@ public class GradleRunner {
     }
 
     /**
-     * DTO for MetaTest report summary
+     * DTO for Antigen report summary
      */
     @Data
-    public static class MetaTestReport {
+    public static class AntigenReport {
         private int totalFaults;
         private int caughtFaults;
         private List<EscapedFault> escapedFaults;
         private double faultDetectionRate;
 
-        public MetaTestReport() {}
+        public AntigenReport() {}
 
         public List<EscapedFault> getEscapedFaults() {
             return escapedFaults != null ? escapedFaults : List.of();

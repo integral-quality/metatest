@@ -49,16 +49,16 @@ public final class Runner {
 
         List<TestContext.RequestResponsePair> capturedRequests = context.getCapturedRequests();
         if (capturedRequests == null || capturedRequests.isEmpty()) {
-            System.err.println("[METATEST-WARN] No requests were captured. Skipping fault simulation.");
+            System.err.println("[Antigen-WARN] No requests were captured. Skipping fault simulation.");
             return;
         }
 
-        System.out.printf("%n[Metatest-Sim] === Starting simulations for test: '%s' ===%n", testName);
-        System.out.printf("[Metatest-Sim] Captured %d HTTP request(s)%n", capturedRequests.size());
+        System.out.printf("%n[Antigen-Sim] === Starting simulations for test: '%s' ===%n", testName);
+        System.out.printf("[Antigen-Sim] Captured %d HTTP request(s)%n", capturedRequests.size());
 
         // Apply multiple endpoints strategy filter
         List<TestContext.RequestResponsePair> requestsToSimulate = filterRequestsByStrategy(capturedRequests);
-        System.out.printf("[Metatest-Sim] Simulating %d request(s) after applying strategy%n", requestsToSimulate.size());
+        System.out.printf("[Antigen-Sim] Simulating %d request(s) after applying strategy%n", requestsToSimulate.size());
 
         // Simulate faults for filtered requests
         for (int i = 0; i < requestsToSimulate.size(); i++) {
@@ -69,7 +69,7 @@ public final class Runner {
             Response originalResponse = pair.getResponse();
 
             if (originalResponse == null || originalRequest == null) {
-                System.err.println("[METATEST-WARN] Request/response pair #" + requestIndex + " is incomplete. Skipping.");
+                System.err.println("[Antigen-WARN] Request/response pair #" + requestIndex + " is incomplete. Skipping.");
                 continue;
             }
 
@@ -77,7 +77,7 @@ public final class Runner {
             String endpointPattern = EndpointPatternNormalizer.normalize(endpointPath);
             String requestBody = originalRequest.getBody();
 
-            System.out.printf("%n[Metatest-Sim] --- Request #%d: '%s' (pattern: '%s') ---%n",
+            System.out.printf("%n[Antigen-Sim] --- Request #%d: '%s' (pattern: '%s') ---%n",
                     requestIndex, endpointPath, endpointPattern);
 
             // Check if we should simulate this response based on status code and content
@@ -86,11 +86,11 @@ public final class Runner {
             String responseBody = originalResponse.getBody();
 
             if (!SimulatorConfig.shouldSimulateResponse(statusCode, responseMap, responseBody)) {
-                System.out.printf("[Metatest-Sim] Skipping simulations for request #%d (status: %d)%n", requestIndex, statusCode);
+                System.out.printf("[Antigen-Sim] Skipping simulations for request #%d (status: %d)%n", requestIndex, statusCode);
                 continue;
             }
 
-            System.out.printf("[Metatest-Sim] Response status: %d (simulation will proceed)%n", statusCode);
+            System.out.printf("[Antigen-Sim] Response status: %d (simulation will proceed)%n", statusCode);
 
             // Set which request we're currently simulating
             context.setCurrentSimulationIndex(requestIndex);
@@ -147,7 +147,7 @@ public final class Runner {
 
         // Reset simulation index after all requests are simulated
         context.setCurrentSimulationIndex(-1);
-        System.out.printf("[Metatest-Sim] === Completed all simulations for test: '%s' ===%n%n", testName);
+        System.out.printf("[Antigen-Sim] === Completed all simulations for test: '%s' ===%n%n", testName);
     }
 
     /**

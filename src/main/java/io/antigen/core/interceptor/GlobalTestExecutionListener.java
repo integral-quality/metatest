@@ -35,8 +35,8 @@ public class GlobalTestExecutionListener implements TestExecutionListener {
             // Generate HTML report after all JSON reports are created
             try {
                 System.out.println("[Antigen] Generating HTML report...");
-                HtmlReportGenerator.generateReport("metatest_report.html");
-                System.out.println("[Antigen] HTML report generated successfully: metatest_report.html");
+                HtmlReportGenerator.generateReport("antigen_report.html");
+                System.out.println("[Antigen] HTML report generated successfully: antigen_report.html");
             } catch (Exception e) {
                 System.err.println("[Antigen] Failed to generate HTML report: " + e.getMessage());
                 e.printStackTrace();

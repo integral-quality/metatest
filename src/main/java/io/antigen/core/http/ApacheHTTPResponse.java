@@ -94,7 +94,7 @@ public class ApacheHTTPResponse implements Response {
         try {
             return OBJECT_MAPPER.readValue(body, new TypeReference<Map<String, Object>>() {});
         } catch (JsonProcessingException e) {
-            System.err.println("[METATEST-WARN] Failed to parse response body as JSON: " + e.getMessage());
+            System.err.println("[Antigen-WARN] Failed to parse response body as JSON: " + e.getMessage());
             return Collections.emptyMap();
         }
     }

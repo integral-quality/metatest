@@ -4,7 +4,7 @@ import io.antigen.ai.llm.ClaudeGenerator;
 import io.antigen.ai.model.GenerationResult;
 import io.antigen.ai.phases.BuildPhase;
 import io.antigen.ai.phases.GenerationPhase;
-import io.antigen.ai.phases.MetaTestPhase;
+import io.antigen.ai.phases.AntigenPhase;
 import io.antigen.ai.phases.TestPhase;
 import io.antigen.ai.runners.GradleRunner;
 import java.nio.file.Path;
@@ -67,7 +67,7 @@ public class Orchestrator {
                 continue;
             }
 
-            System.out.println("State 3: Running tests (without MetaTest)...");
+            System.out.println("State 3: Running tests (without Antigen)...");
             TestPhase testPhase = gradleRunner.runTests(context);
             System.out.println("Result: " + (testPhase.isSuccess() ? "SUCCESS" : "FAILED"));
 
@@ -77,21 +77,21 @@ public class Orchestrator {
                 continue;
             }
 
-            System.out.println("State 4: Running tests with MetaTest fault injection...");
-            MetaTestPhase metaTestPhase = gradleRunner.runMetaTest(context);
-            System.out.println("Result: " + (metaTestPhase.isSuccess() ? "SUCCESS" : "FAILED"));
-            System.out.printf("Fault Detection Rate: %.1f%%%n", metaTestPhase.getFaultDetectionRate() * 100);
+            System.out.println("State 4: Running tests with Antigen fault injection...");
+            AntigenPhase antigenPhase = gradleRunner.runAntigen(context);
+            System.out.println("Result: " + (antigenPhase.isSuccess() ? "SUCCESS" : "FAILED"));
+            System.out.printf("Fault Detection Rate: %.1f%%%n", antigenPhase.getFaultDetectionRate() * 100);
 
-            if (metaTestPhase.hasEscapedFaults()) {
-                System.out.printf("MetaTest failed: %d faults escaped%n", metaTestPhase.getEscapedFaults().size());
+            if (antigenPhase.hasEscapedFaults()) {
+                System.out.printf("Antigen failed: %d faults escaped%n", antigenPhase.getEscapedFaults().size());
 
                 if (shouldRetry(context, attempt)) {
-                    context = context.addFeedback(metaTestPhase);
+                    context = context.addFeedback(antigenPhase);
                     continue;
                 } else {
-                    System.out.println("Same MetaTest failures repeating, stopping retries");
+                    System.out.println("Same Antigen failures repeating, stopping retries");
                     return GenerationResult.failure(attempt,
-                            "MetaTest failures are repeating. Generated tests may be at maximum quality.");
+                            "Antigen failures are repeating. Generated tests may be at maximum quality.");
                 }
             }
 
@@ -112,14 +112,14 @@ public class Orchestrator {
         }
 
         if (context.getFeedbackHistory().size() >= 2) {
-            List<MetaTestPhase> recentMetaTestPhases = context.getFeedbackHistory().stream()
-                    .filter(phase -> phase instanceof MetaTestPhase)
-                    .map(phase -> (MetaTestPhase) phase)
+            List<AntigenPhase> recentAntigenPhases = context.getFeedbackHistory().stream()
+                    .filter(phase -> phase instanceof AntigenPhase)
+                    .map(phase -> (AntigenPhase) phase)
                     .toList();
 
-            if (recentMetaTestPhases.size() >= 2) {
-                MetaTestPhase last = recentMetaTestPhases.get(recentMetaTestPhases.size() - 1);
-                MetaTestPhase secondLast = recentMetaTestPhases.get(recentMetaTestPhases.size() - 2);
+            if (recentAntigenPhases.size() >= 2) {
+                AntigenPhase last = recentAntigenPhases.get(recentAntigenPhases.size() - 1);
+                AntigenPhase secondLast = recentAntigenPhases.get(recentAntigenPhases.size() - 2);
 
                 if (last.getEscapedFaults().equals(secondLast.getEscapedFaults())) {
                     return false;

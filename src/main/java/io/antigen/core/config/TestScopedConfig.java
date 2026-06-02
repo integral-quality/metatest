@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Root model for per-test-class .io.antigen.core.yml configuration files.
- * Placed in: src/test/resources/metatest/<fully.qualified.ClassName>.io.antigen.core.yml
+ * Root model for per-test-class .antigen.yml configuration files.
+ * Placed in: src/test/resources/antigen/<fully.qualified.ClassName>.antigen.yml
  *
  * Class-level settings apply to ALL tests in the class.
  * Method-level overrides live under the `tests:` key.

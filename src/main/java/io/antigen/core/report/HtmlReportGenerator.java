@@ -52,7 +52,7 @@ public class HtmlReportGenerator {
         html.append("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n");
         html.append("  <meta charset=\"UTF-8\">\n");
         html.append("  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n");
-        html.append("  <title>MetaTest Report</title>\n");
+        html.append("  <title>Antigen Report</title>\n");
         html.append("  <style>\n");
         html.append(getCssStyles());
         html.append("  </style>\n");
@@ -104,7 +104,7 @@ public class HtmlReportGenerator {
         return "  <div class=\"header\">\n" +
                "    <div class=\"header-content\">\n" +
                "      <div>\n" +
-               "        <h1>MetaTest Report</h1>\n" +
+               "        <h1>Antigen Report</h1>\n" +
                "        <p class=\"subtitle\">REST API Tests Effectiveness Results</p>\n" +
                "        <p class=\"timestamp\">Generated: " + timestamp + "</p>\n" +
                "      </div>\n" +

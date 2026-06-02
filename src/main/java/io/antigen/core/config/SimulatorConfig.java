@@ -310,7 +310,7 @@ public class SimulatorConfig {
         String configSourceType = System.getProperty("io.antigen.core.config.source");
 
         if (configSourceType == null) {
-            configSourceType = System.getenv("METATEST_CONFIG_SOURCE");
+            configSourceType = System.getenv("ANTIGEN_CONFIG_SOURCE");
         }
 
         if (configSourceType == null) {
@@ -327,8 +327,8 @@ public class SimulatorConfig {
             source = new ApiConfigurationSource();
         } else {
             // Auto-detect based on API configuration
-            MetaTestConfig metaTestConfig = MetaTestConfig.getInstance();
-            if (metaTestConfig.isApiConfigured()) {
+            AntigenConfig antigenConfig = AntigenConfig.getInstance();
+            if (antigenConfig.isApiConfigured()) {
                 System.out.println("Using API configuration source (auto-detected - API key present)");
                 source = new ApiConfigurationSource();
             } else {
@@ -342,8 +342,7 @@ public class SimulatorConfig {
     }
 
     private static String readConfigSourceFromPropertiesFile() {
-        String[] paths = {"antigen/antigen.properties", "antigen.properties",
-                "metatest/metatest.properties", "metatest.properties"};
+        String[] paths = {"antigen/antigen.properties", "antigen.properties"};
         for (String path : paths) {
             try (java.io.InputStream is = SimulatorConfig.class.getClassLoader().getResourceAsStream(path)) {
                 if (is == null) continue;
@@ -445,7 +444,7 @@ public class SimulatorConfig {
             boolean is2xx = statusCode >= 200 && statusCode < 300;
             boolean isCollection = isCollectionResponse(responseBody);
             if (isCollection) {
-                System.out.println("[Metatest-Sim] Skipping simulation - response is a collection (array)");
+                System.out.println("[Antigen-Sim] Skipping simulation - response is a collection (array)");
                 return false;
             }
             return is2xx;
@@ -455,28 +454,28 @@ public class SimulatorConfig {
 
         if (simConfig.only_success_responses) {
             if (statusCode < 200 || statusCode >= 300) {
-                System.out.println("[Metatest-Sim] Skipping simulation - non-success status code: " + statusCode);
+                System.out.println("[Antigen-Sim] Skipping simulation - non-success status code: " + statusCode);
                 return false;
             }
         } else if (simConfig.allowed_status_codes != null && !simConfig.allowed_status_codes.isEmpty()) {
             if (!simConfig.allowed_status_codes.contains(statusCode)) {
-                System.out.println("[Metatest-Sim] Skipping simulation - status code not in allowed list: " + statusCode);
+                System.out.println("[Antigen-Sim] Skipping simulation - status code not in allowed list: " + statusCode);
                 return false;
             }
         }
 
         if (simConfig.skip_collections_response && isCollectionResponse(responseBody)) {
-            System.out.println("[Metatest-Sim] Skipping simulation - response is a collection (array)");
+            System.out.println("[Antigen-Sim] Skipping simulation - response is a collection (array)");
             return false;
         }
 
         if (responseMap == null || responseMap.isEmpty()) {
             if (simConfig.min_response_fields > 0) {
-                System.out.println("[Metatest-Sim] Skipping simulation - empty response body");
+                System.out.println("[Antigen-Sim] Skipping simulation - empty response body");
                 return false;
             }
         } else if (responseMap.size() < simConfig.min_response_fields) {
-            System.out.println("[Metatest-Sim] Skipping simulation - response has fewer than " +
+            System.out.println("[Antigen-Sim] Skipping simulation - response has fewer than " +
                 simConfig.min_response_fields + " fields (" + responseMap.size() + " found)");
             return false;
         }
@@ -484,7 +483,7 @@ public class SimulatorConfig {
         if (simConfig.skip_if_contains_fields != null && responseMap != null) {
             for (String errorField : simConfig.skip_if_contains_fields) {
                 if (responseMap.containsKey(errorField)) {
-                    System.out.println("[Metatest-Sim] Skipping simulation - response contains error field: " + errorField);
+                    System.out.println("[Antigen-Sim] Skipping simulation - response contains error field: " + errorField);
                     return false;
                 }
             }

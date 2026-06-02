@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Configuration source that fetches fault strategies from the Metatest API server.
+ * Configuration source that fetches fault strategies from the Antigen API server.
  * Requires API key authentication.
  */
 public class ApiConfigurationSource implements ConfigurationSource {

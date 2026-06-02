@@ -52,11 +52,11 @@ public class InvariantSimulator {
                 : SimulatorConfig.getInvariantsForEndpoint(endpointPattern, httpMethod);
 
         if (invariants.isEmpty()) {
-            System.out.printf("[Metatest-Invariant] No invariants configured for %s %s%n", httpMethod, endpointPattern);
+            System.out.printf("[Antigen-Invariant] No invariants configured for %s %s%n", httpMethod, endpointPattern);
             return;
         }
 
-        System.out.printf("[Metatest-Invariant] Found %d invariant(s) for %s %s%n",
+        System.out.printf("[Antigen-Invariant] Found %d invariant(s) for %s %s%n",
                 invariants.size(), httpMethod, endpointPattern);
 
         Map<String, Object> responseMap = originalResponse.getResponseAsMap();

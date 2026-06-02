@@ -21,7 +21,7 @@ public class YamlConfig {
         private String llm = "5m";
         private String build = "5m";
         private String test = "10m";
-        private String metatest = "30m";
+        private String antigen = "30m";
     }
 
     @Data

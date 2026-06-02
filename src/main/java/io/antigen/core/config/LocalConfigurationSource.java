@@ -61,8 +61,7 @@ public class LocalConfigurationSource implements ConfigurationSource {
     private SimulatorConfig loadConfig() {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 
-        // Preferred location: antigen/contract.yml. Fall back to legacy metatest/ and root-level.
-        String[] candidates = {"antigen/contract.yml", "metatest/contract.yml", "contract.yml", "config.yml"};
+        String[] candidates = {"antigen/contract.yml"};
         for (String filename : candidates) {
             try (InputStream is = getClass().getClassLoader().getResourceAsStream(filename)) {
                 if (is == null) continue;

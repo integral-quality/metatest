@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.antigen.core.api.dto.ContractFaultStrategyListResponse;
 import io.antigen.core.api.dto.SubmitSimulationResultsRequest;
-import io.antigen.core.config.MetaTestConfig;
+import io.antigen.core.config.AntigenConfig;
 
 import java.io.IOException;
 import java.net.URI;
@@ -17,18 +17,18 @@ public class FaultStrategyApiClient {
     
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
-    private final MetaTestConfig config;
+    private final AntigenConfig config;
 
 
     public FaultStrategyApiClient() {
-        this.config = MetaTestConfig.getInstance();
+        this.config = AntigenConfig.getInstance();
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(10))
                 .build();
         this.objectMapper = new ObjectMapper();
         this.objectMapper.registerModule(new JavaTimeModule());
         
-        System.out.println("Initialized Metatest API client with config: " + config);
+        System.out.println("Initialized Antigen API client with config: " + config);
     }
 
     private HttpRequest.Builder createAuthenticatedRequestBuilder() {

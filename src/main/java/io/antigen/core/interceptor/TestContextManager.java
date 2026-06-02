@@ -14,7 +14,7 @@ public class TestContextManager {
         TestContext context = contextHolder.get();
         if (context == null) {
             throw new IllegalStateException("TestContext is not initialized for the current thread. " +
-                    "Ensure the test execution is wrapped by the Metatest aspect.");
+                    "Ensure the test execution is wrapped by the Antigen aspect.");
         }
         return context;
     }

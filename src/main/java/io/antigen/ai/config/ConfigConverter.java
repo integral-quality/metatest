@@ -15,7 +15,7 @@ public class ConfigConverter {
             builder.llmTimeout(parseDuration(yamlConfig.getTimeouts().getLlm()))
                    .buildTimeout(parseDuration(yamlConfig.getTimeouts().getBuild()))
                    .testTimeout(parseDuration(yamlConfig.getTimeouts().getTest()))
-                   .metaTestTimeout(parseDuration(yamlConfig.getTimeouts().getMetatest()));
+                   .antigenTimeout(parseDuration(yamlConfig.getTimeouts().getAntigen()));
         }
 
         return builder.build();

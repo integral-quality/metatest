@@ -10,9 +10,9 @@ public class HtmlReportGeneratorTest {
         System.out.println("Testing HTML report generation...");
 
         // Use the JSON files in the lib directory
-        HtmlReportGenerator.generateReport("metatest_report.html");
+        HtmlReportGenerator.generateReport("antigen_report.html");
 
-        File reportFile = new File("metatest_report.html");
+        File reportFile = new File("antigen_report.html");
         if (reportFile.exists()) {
             System.out.println("HTML report generated successfully: " + reportFile.getAbsolutePath());
             System.out.println("File size: " + reportFile.length() + " bytes");

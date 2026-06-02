@@ -79,7 +79,8 @@ jobs:
         run: |
           docker run -d --name wiremock -p 8089:8089 \
             -v $GITHUB_WORKSPACE/src/test/resources/mappings:/home/wiremock/mappings \
-            wiremock/wiremock:latest --port 8089 --verbose
+           wiremock/wiremock:latest --port 8089 --verbose
+          until curl -sf http://localhost:8089/__admin/health; do sleep 1; done
 
       - name: Run integration tests
         run: ./gradlew clean test --tests "io.antigen.core.integration.*" -DrunWithAntigen=true

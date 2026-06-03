@@ -5,4 +5,4 @@ before_install:
   - chmod +x gradlew
 
 install:
-  - ./gradlew :lib:build :lib:publishToMavenLocal -x test
+  - ./gradlew build publishToMavenLocal -x test

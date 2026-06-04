@@ -46,7 +46,9 @@
       "Bash(Select-Object -ExpandProperty FullName)",
       "PowerShell(head *)",
       "Bash(.\\\\gradlew.bat compileJava)",
-      "Bash(.\\\\gradlew clean *)"
+      "Bash(.\\\\gradlew clean *)",
+      "Bash(Remove-Item -Recurse -Force \"C:\\\\Users\\\\M\\\\.gradle\\\\caches\\\\jars-9\\\\0381121055cde8c4f055cc4daa8767af\" -ErrorAction SilentlyContinue)",
+      "Bash(Write-Host \"Deleted cache entry\")"
     ],
     "deny": [],
     "ask": []

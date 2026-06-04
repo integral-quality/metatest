@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Per-test-method overrides within a .io.antigen.core.yml file.
+ * Per-test-method overrides within a .antigen.yml file.
  * Keys in the parent `tests:` map can be exact method names or glob patterns (e.g. "testGet*").
  *
  * Example:

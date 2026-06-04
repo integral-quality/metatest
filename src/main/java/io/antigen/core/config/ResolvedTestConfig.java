@@ -8,10 +8,10 @@ import java.util.regex.Pattern;
 
 /**
  * The fully-merged configuration for a single test method execution.
- * Produced by ConfigResolver by combining: global config.yml + class .io.antigen.core.yml + method override.
+ * Produced by ConfigResolver by combining: global contract.yml + class .antigen.yml + method override.
  *
  * Resolution chain (most specific wins or additive depending on aspect):
- *   method-level → class-level → global config.yml
+ *   method-level → class-level → global contract.yml
  *
  * - invariants: additive (all levels contribute)
  * - faults:     override (most specific wins per fault type)

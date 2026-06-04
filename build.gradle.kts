@@ -46,8 +46,8 @@ dependencies {
     // JSON (core)
     implementation("org.json:json:20250107")
 
-    // WireMock — HTTP mocking for tests (core)
-    implementation("com.github.tomakehurst:wiremock:3.0.1")
+    // WireMock — HTTP mocking for tests
+    testImplementation("com.github.tomakehurst:wiremock:3.0.1")
 
     // JUnit platform — needed at compile time for @Test interception and test execution (core)
     compileOnly("org.junit.jupiter:junit-jupiter-api:5.10.0")
@@ -60,6 +60,9 @@ dependencies {
     // Logging
     implementation("org.slf4j:slf4j-api:2.0.9")
     implementation("ch.qos.logback:logback-classic:1.4.11")
+
+    // Gradle plugin API
+    compileOnly(gradleApi())
 
     // Lombok
     compileOnly("org.projectlombok:lombok:1.18.36")

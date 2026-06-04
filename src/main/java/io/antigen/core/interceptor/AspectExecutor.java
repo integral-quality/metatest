@@ -37,9 +37,9 @@ public class AspectExecutor {
         Optional<TestScopedConfig> classConfig = TestScopedConfigCache.getInstance().get(testClass);
         ResolvedTestConfig resolvedConfig = ConfigResolver.resolve(testClass, classConfig, methodName);
 
-        // Short-circuit: test is excluded from simulation via .io.antigen.core.yml
+        // Short-circuit: test is excluded from simulation via .antigen.yml
         if (resolvedConfig.isSkip()) {
-            System.out.println("[Antigen] Simulation excluded via .io.antigen.core.yml for: " + methodName);
+            System.out.println("[Antigen] Simulation excluded via .antigen.yml for: " + methodName);
             return joinPoint.proceed();
         }
 

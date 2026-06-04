@@ -1,6 +1,5 @@
 # Ignore build output directories
 /build/
-/lib/build/
 /out/
 
 # Ignore IntelliJ IDEA project files
@@ -24,9 +23,8 @@
 Thumbs.db
 
 .notes
-*metatest.properties
+*antigen.properties
 gap_*
 schema_coverage*
 fault_simulation*
-metatest_report.html
-gradle-plugin/build
+antigen_report.html

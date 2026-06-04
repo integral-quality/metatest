@@ -11,10 +11,10 @@ import java.util.regex.Pattern;
  * Merges all configuration sources into a single ResolvedTestConfig for simulation.
  *
  * Merge order (all additive for invariants, most-specific-wins for everything else):
- *   1. global config.yml
+ *   1. global contract.yml
  *   2. features/*.yml        (invariants only — additive)
- *   3. ClassName.io.antigen.core.yml class-level
- *   4. ClassName.io.antigen.core.yml method-level  (most specific)
+ *   3. <ClassName>.antigen.yml class-level
+ *   4. <ClassName>.antigen.yml method-level  (most specific)
  *
  * Merging rules:
  *   - invariants:  additive  (all levels contribute)
@@ -28,7 +28,7 @@ public class ConfigResolver {
      * Resolves the effective configuration for a specific test method execution.
      *
      * @param testClass   The test class being intercepted (used for feature lookup)
-     * @param classConfig Optional class-level config from ClassName.io.antigen.core.yml
+     * @param classConfig Optional class-level config from <ClassName>.antigen.yml
      * @param methodName  The @Test method name being executed
      * @return Fully resolved, immutable config ready for the simulation pipeline
      */
@@ -172,10 +172,10 @@ public class ConfigResolver {
 
     /**
      * Merges invariants from all four levels (additive — all contribute):
-     *   1. global config.yml
+     *   1. global contract.yml
      *   2. features/*.yml  (each matching feature adds its invariants)
-     *   3. class-level ClassName.io.antigen.core.yml
-     *   4. method-level ClassName.io.antigen.core.yml
+     *   3. class-level <ClassName>.antigen.yml
+     *   4. method-level <ClassName>.antigen.yml
      */
     private static Map<String, List<InvariantConfig>> mergeInvariants(
             List<FeatureConfig> features,

@@ -16,9 +16,9 @@ import java.util.Map;
  * belong to multiple features.
  *
  * Invariants defined here are merged additively with:
- *   - global config.yml invariants
- *   - class-level .io.antigen.core.yml invariants
- *   - method-level .io.antigen.core.yml invariants
+ *   - global contract.yml invariants
+ *   - class-level .antigen.yml invariants
+ *   - method-level .antigen.yml invariants
  *
  * Example:
  * <pre>

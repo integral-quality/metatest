@@ -4,11 +4,11 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Singleton cache for per-test-class .io.antigen.core.yml configs.
+ * Singleton cache for per-test-class .antigen.yml configs.
  * Loads lazily on first interception of each test class and caches for the JVM lifetime.
  *
  * Optional.empty() is also cached to avoid repeated classloader lookups for classes
- * that have no .io.antigen.core.yml file.
+ * that have no .antigen.yml file.
  */
 public class TestScopedConfigCache {
 
@@ -24,10 +24,10 @@ public class TestScopedConfigCache {
     }
 
     /**
-     * Returns the .io.antigen.core.yml config for the given test class, loading it on first call.
+     * Returns the .antigen.yml config for the given test class, loading it on first call.
      *
      * @param testClass The test class being intercepted
-     * @return Optional containing the config, or empty if no .io.antigen.core.yml exists
+     * @return Optional containing the config, or empty if no .antigen.yml exists
      */
     public Optional<TestScopedConfig> get(Class<?> testClass) {
         return cache.computeIfAbsent(testClass.getName(), k -> loader.load(testClass));
